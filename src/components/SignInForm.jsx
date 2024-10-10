@@ -1,5 +1,6 @@
 "use client";
 import { login } from "@/libs/user";
+import { setCurrUser } from "@/redux/features/currUserSlice";
 // import { setCurrUser } from "@/features/user/currUserSlice";
 // import { setLogged } from "@/features/user/loginSlice";
 // import { createNotification } from "@/libs/notification";
@@ -10,12 +11,13 @@ import { showError, showSuccess } from "@/utils/toaster";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const SignInForm = () => {
   // utils
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // formik
   const formik = useFormik({
@@ -36,9 +38,12 @@ const SignInForm = () => {
       try {
         setLoading(true);
         const res = await login(values);
+        console.log(res);
+        
         if (res.status === 401) {
           showError("Wrong Email or Password");
         } else if (res.status === 200) {
+          dispatch(setCurrUser(res.data.data._doc))
           showSuccess("Logged in");
           router.refresh();
           router.replace("/dashboard/overview");

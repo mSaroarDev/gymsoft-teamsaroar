@@ -6,8 +6,13 @@ import { motion } from "framer-motion";
 import { showError, showSuccess } from "@/utils/toaster";
 import { useRouter } from "next/navigation";
 import { logout } from "@/libs/user";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdminTopbar = () => {
+  // redux store
+  const dispatch = useDispatch();
+  const { currUserData } = useSelector((state) => state.currUser);
+
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   // show logout button
@@ -29,24 +34,25 @@ const AdminTopbar = () => {
     }
   };
 
+
   return (
     <>
       <div className="bg-white ml-0 md:ml-[250px] w-full md:w-auto shadow-md fixed top-0 left-0 right-0 z-50">
         <div className="flex items-center justify-between md:justify-end p-3">
-          <H1 className="text-lg md:hidden" text={"NextNews"} />
+          <H1 className="text-lg md:hidden" text={"Gymnessia"} />
           <div className="flex items-center justify-center gap-4">
             <div className="text-right">
-              <H3 className="text-base font-semibold" text={"userData.name"} />
-              <P className="-mt-2" text={"userData.designation"} />
+              <H3 className="text-base font-semibold" text={currUserData.name} />
+              <P text={currUserData.designation} />
             </div>
             <div
               onClick={() => setShowLogout((l) => !l)}
               className="w-10 h-10 rounded-full ring overflow-hidden cursor-pointer"
             >
               <img
-                src={"userData.image"}
+                src={currUserData.image}
                 className="w-full h-full object-cover"
-                alt={"userData.nam"}
+                alt={currUserData.name}
               />
 
               {showLogout && (

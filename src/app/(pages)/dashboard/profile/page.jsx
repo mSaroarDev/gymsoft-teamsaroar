@@ -1,34 +1,39 @@
 "use client";
 import { Form, Input, Label } from "@/subcomponents/Forms";
 import { H5 } from "@/subcomponents/Headings";
-import { ImageUp, Upload } from "lucide-react";
-import { motion } from "framer-motion";
+import { ImageUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { CldUploadButton } from "next-cloudinary";
 import { showError, showSuccess } from "@/utils/toaster";
-import { useDispatch, useSelector } from "react-redux";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import MotionContainer from "@/components/MotionContainer";
+import { useDispatch, useSelector } from "react-redux";
+import { editProfile } from "@/libs/user";
+import { setCurrUser } from "@/redux/features/currUserSlice";
 
 const ProfileCom = () => {
+  // redux store
+  const { currUserData } = useSelector((state) => state.currUser);
+  const dispatch = useDispatch();
+
   // utils
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // fill with existing data
-  //   useEffect(() => {
-  //     formik.setValues({
-  //       name: userData?.name,
-  //       designation: userData?.designation,
-  //       address: userData?.address,
-  //       mobile: userData?.mobile,
-  //       email: userData?.email,
-  //       image: userData?.image,
-  //     });
+  useEffect(() => {
+    formik.setValues({
+      name: currUserData?.name,
+      designation: currUserData?.designation,
+      address: currUserData?.address,
+      mobile: currUserData?.mobile,
+      email: currUserData?.email,
+      image: currUserData?.image,
+    });
 
-  //     setImage(userData?.image);
-  //   }, [userData]);
+    setImage(currUserData?.image);
+  }, [currUserData]);
 
   // cloudinary
   const [image, setImage] = useState(null);
@@ -61,24 +66,23 @@ const ProfileCom = () => {
         return showError("All Fields Must be Filled");
       }
 
-      //   try {
-      //     setLoading(true);
-      //     const res = await updateProfile(userData?.id, values);
+      try {
+        setLoading(true);
+        const res = await editProfile(currUserData?._id, values);
+        console.log(res);
 
-      //     if (res.ok) {
-      //       showSuccess("Profile Updated");
-
-      //       const data = await res.json();
-      //       // update store
-      //       dispatch(setCurrUser(data?.data));
-      //     } else {
-      //       showError("Profile Update Failed");
-      //     }
-      //   } catch (error) {
-      //     showError("Internal Server Error");
-      //   } finally {
-      //     setLoading(false);
-      //   }
+        if (res.status === 200) {
+          showSuccess("Profile Updated");
+          // update store
+          dispatch(setCurrUser(res?.data?.data));
+        } else {
+          showError("Profile Update Failed");
+        }
+      } catch (error) {
+        showError("Internal Server Error");
+      } finally {
+        setLoading(false);
+      }
     },
   });
 

@@ -36,3 +36,28 @@ export const logout = async () => {
     return error;
   }
 };
+
+// my profile
+export const myProfile = async (id) => {
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my-profile?userId=${id}`
+    );
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+// my profile
+export const editProfile = async (id, values) => {
+  try {
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my-profile/edit?userId=${id}`,
+      values
+    );
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
