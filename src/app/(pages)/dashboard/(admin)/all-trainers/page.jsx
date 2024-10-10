@@ -1,9 +1,9 @@
 import CommonTitle from "@/subcomponents/CommonTitle";
-import { Trash2, UserRoundPen } from "lucide-react";
-import UserRow from "./UserRow";
 import MotionContainer from "@/components/MotionContainer";
+import DataList from "./DataList";
 
 const AllTrainers = () => {
+
   return (
     <MotionContainer>
       <CommonTitle text="Active Trainers" />
@@ -22,13 +22,7 @@ const AllTrainers = () => {
           </thead>
 
           <tbody>
-            <UserRow />
-            <UserRow />
-            <UserRow />
-            <UserRow />
-            <UserRow />
-            <UserRow />
-            <UserRow />
+            <DataList />
           </tbody>
         </table>
       </div>

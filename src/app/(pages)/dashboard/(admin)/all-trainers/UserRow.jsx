@@ -1,13 +1,13 @@
 import { Trash2, UserRoundPen } from "lucide-react";
 
-const UserRow = () => {
+const UserRow = ({data}) => {
   return (
     <>
       <tr>
         <td>01</td>
-        <td>Saroar Jahan</td>
-        <td>Trainer</td>
-        <td>Darusha, Rajshahi</td>
+        <td>{data?.name}</td>
+        <td>{data?.designation}</td>
+        <td>{data?.address}</td>
         <td className="flex items-center gap-2">
           <button className="bg-[#F4A62A] text-white p-2">
             <UserRoundPen className="w-4 h-4" />
@@ -16,7 +16,7 @@ const UserRow = () => {
             <Trash2 className="w-4 h-4" />
           </button>
         </td>
-        <td>01798456380</td>
+        <td>{data?.mobile}</td>
       </tr>
     </>
   );

@@ -11,24 +11,17 @@ import { useDispatch, useSelector } from "react-redux";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import MotionContainer from "@/components/MotionContainer";
+import { register } from "@/libs/user";
+import { setUsers } from "@/redux/features/userSlice";
+import { useRouter } from "next/navigation";
 
 const NewTrainerForm = () => {
+  // redux store
+  const dispatch = useDispatch();
+
   // utils
-  const [loading, setLoading] = useState(true);
-
-  // fill with existing data
-  //   useEffect(() => {
-  //     formik.setValues({
-  //       name: userData?.name,
-  //       designation: userData?.designation,
-  //       address: userData?.address,
-  //       mobile: userData?.mobile,
-  //       email: userData?.email,
-  //       image: userData?.image,
-  //     });
-
-  //     setImage(userData?.image);
-  //   }, [userData]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // cloudinary
   const [image, setImage] = useState(null);
@@ -54,6 +47,8 @@ const NewTrainerForm = () => {
       mobile: "",
       email: "",
       image: "",
+      role: "Trainer",
+      password: "123456",
     },
     onSubmit: async (values) => {
       const { name, designation, address, mobile, email, image } = values;
@@ -61,24 +56,24 @@ const NewTrainerForm = () => {
         return showError("All Fields Must be Filled");
       }
 
-      //   try {
-      //     setLoading(true);
-      //     const res = await updateProfile(userData?.id, values);
+      try {
+        setLoading(true);
+        const res = await register(values);
 
-      //     if (res.ok) {
-      //       showSuccess("Profile Updated");
+        if (res.status === 200) {
+          showSuccess("Trainer Info Added");
 
-      //       const data = await res.json();
-      //       // update store
-      //       dispatch(setCurrUser(data?.data));
-      //     } else {
-      //       showError("Profile Update Failed");
-      //     }
-      //   } catch (error) {
-      //     showError("Internal Server Error");
-      //   } finally {
-      //     setLoading(false);
-      //   }
+          // update store
+          dispatch(setUsers(res?.data?.data));
+          router.push("/dashboard/all-trainers");
+        } else {
+          showError("Trainer Create Failed");
+        }
+      } catch (error) {
+        showError("Internal Server Error");
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -165,7 +160,6 @@ const NewTrainerForm = () => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 placeholder="Enter email"
-                disabled
               />
             </div>
           </div>

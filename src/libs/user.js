@@ -61,3 +61,15 @@ export const editProfile = async (id, values) => {
     return error;
   }
 };
+
+// my profile
+export const allUsers = async () => {
+  try {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/all`
+    );
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
