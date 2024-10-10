@@ -3,8 +3,9 @@ import { AlignJustify, LogOut, X } from "lucide-react";
 import { useState } from "react";
 import Navlink from "./Navlink";
 import { motion } from "framer-motion";
-import { showSuccess } from "@/utils/toaster";
+import { showError, showSuccess } from "@/utils/toaster";
 import { useRouter } from "next/navigation";
+import { logout } from "@/libs/user";
 
 const AdminTopbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -15,18 +16,17 @@ const AdminTopbar = () => {
 
   // logout
   const handleLogout = async () => {
-    // try {
-    //   const res = await logout();
-    //   if (res.msg === "success") {
-    //     showSuccess("Loggged out");
-    //     router.push("/login");
-
-    //   } else {
-    //     showSuccess("Log out failed");
-    //   }
-    // } catch (error) {
-    //   showSuccess("Internal Serer Error");
-    // }
+    try {
+      const res = await logout();
+      if (res.status === 200) {
+        showSuccess("Loggged out");
+        router.push("/login");
+      } else {
+        showError("Log out failed");
+      }
+    } catch (error) {
+      showError("Internal Serer Error");
+    }
   };
 
   return (
@@ -41,7 +41,7 @@ const AdminTopbar = () => {
             </div>
             <div
               onClick={() => setShowLogout((l) => !l)}
-              className="w-10 h-10 rounded-full ring overflow-hidden"
+              className="w-10 h-10 rounded-full ring overflow-hidden cursor-pointer"
             >
               <img
                 src={"userData.image"}

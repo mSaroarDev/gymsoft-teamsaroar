@@ -1,4 +1,5 @@
 "use client";
+import { register } from "@/libs/user";
 // import { setCurrUser } from "@/features/user/currUserSlice";
 // import { setLogged } from "@/features/user/loginSlice";
 // import { createNotification } from "@/libs/notification";
@@ -9,7 +10,6 @@ import { showError, showSuccess } from "@/utils/toaster";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 const SignUpForm = () => {
   // utils
@@ -20,6 +20,7 @@ const SignUpForm = () => {
   // formik
   const formik = useFormik({
     initialValues: {
+      name: "",
       email: "",
       password: "",
     },
@@ -33,39 +34,25 @@ const SignUpForm = () => {
       }
 
       // login function
-      // try {
-      //   setLoading(true);
-      //   const res = await userLogin(values);
-      //   if (res.status === 401) {
-      //     showError("Wrong Email or Password");
-      //   } else if (res.status === 200) {
-      //     showSuccess("Logged in");
-      //     router.refresh();
-      //     router.replace("/dashboard/overview");
+      try {
+        setLoading(true);
+        const res = await register(values);
 
-      //     // store user data in redux store
-      //     const data = await res.json();
-
-      //     const currUser = await myProfile(data?.data?.id);
-
-      //     // dispatch(setLogged(true));
-      //     // dispatch(setCurrUser(currUser.data));
-
-      //     // update notifications
-      //     await createNotification({
-      //       type: "loggin",
-      //       created_by: currUser?.data?.name,
-      //       text: "logged in",
-      //     });
-      //   } else {
-      //     showError("Something is wrong");
-      //   }
-      // } catch (error) {
-      //   console.log("error", error);
-      //   showError("Internal Server Error");
-      // } finally {
-      //   setLoading(false);
-      // }
+        if (res.status === 409) {
+          showError("Email already exist");
+        } else if (res.status === 200) {
+          showSuccess("Logged in");
+          router.refresh();
+          router.replace("/login");
+        } else {
+          showError("Something is wrong");
+        }
+      } catch (error) {
+        console.log("error", error);
+        showError("Internal Server Error");
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -78,7 +65,7 @@ const SignUpForm = () => {
           onChange={formik.handleChange}
           value={formik.values.name}
           type="text"
-          placeholder="Enter Email"
+          placeholder="Enter Name"
         />
         <Input
           id="email"
