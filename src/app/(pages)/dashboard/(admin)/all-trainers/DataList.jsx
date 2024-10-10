@@ -10,6 +10,8 @@ const DataList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("fetching data");
+    
     dispatch(fetchUsers());
   }, []);
 

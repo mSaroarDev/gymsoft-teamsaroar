@@ -3,8 +3,6 @@ import { CheckCookieAuth } from "./utils/MiddlewareUtils";
 
 // Middleware
 export async function middleware(req) {
-  console.log("middleware");
-
   if (req.nextUrl.pathname.startsWith("/dashboard")) {
     return await CheckCookieAuth(req);
   }

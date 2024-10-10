@@ -4,17 +4,18 @@ import { ImageUp } from "lucide-react";
 import { useState } from "react";
 import { useFormik } from "formik";
 import { CldUploadButton } from "next-cloudinary";
-import { showError, showSuccess } from "@/utils/toaster";
-import { useDispatch } from "react-redux";
+import { showError } from "@/utils/toaster";
+import { useDispatch, useSelector } from "react-redux";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import { register } from "@/libs/user";
-import { addUser } from "@/redux/features/userSlice";
+import { addUserThunk } from "@/redux/features/userSlice";
 import { useRouter } from "next/navigation";
 
 const NewTrainerForm = () => {
   // redux store
   const dispatch = useDispatch();
+  const { usersData, isLoading, error } = useSelector((state) => state.users);
 
   // utils
   const [loading, setLoading] = useState(false);
@@ -55,13 +56,9 @@ const NewTrainerForm = () => {
 
       try {
         setLoading(true);
-        const res = await register(values);
+        const res = await dispatch(addUserThunk(values));
 
-        if (res.status === 200) {
-          showSuccess("Trainer Info Added");
-
-          // update store
-          dispatch(addUser(res?.data?.data));
+        if (res.type === "users/addUser/fulfilled") {
           router.push("/dashboard/all-trainers");
         } else {
           showError("Trainer Create Failed");

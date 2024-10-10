@@ -73,3 +73,15 @@ export const allUsers = async () => {
     return error;
   }
 };
+
+// my profile
+export const deleteUser = async (id) => {
+  try {
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/delete?userId=${id}`
+    );
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
