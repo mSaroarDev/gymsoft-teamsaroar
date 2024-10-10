@@ -1,18 +1,15 @@
 "use client";
 import { Form, Input, Label } from "@/subcomponents/Forms";
-import { H5 } from "@/subcomponents/Headings";
-import { ImageUp, Upload } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { ImageUp } from "lucide-react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import { CldUploadButton } from "next-cloudinary";
 import { showError, showSuccess } from "@/utils/toaster";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
-import MotionContainer from "@/components/MotionContainer";
 import { register } from "@/libs/user";
-import { setUsers } from "@/redux/features/userSlice";
+import { addUser } from "@/redux/features/userSlice";
 import { useRouter } from "next/navigation";
 
 const NewTrainerForm = () => {
@@ -64,7 +61,7 @@ const NewTrainerForm = () => {
           showSuccess("Trainer Info Added");
 
           // update store
-          dispatch(setUsers(res?.data?.data));
+          dispatch(addUser(res?.data?.data));
           router.push("/dashboard/all-trainers");
         } else {
           showError("Trainer Create Failed");

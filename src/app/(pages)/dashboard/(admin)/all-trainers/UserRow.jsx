@@ -16,7 +16,7 @@ const UserRow = ({data}) => {
             <Trash2 className="w-4 h-4" />
           </button>
         </td>
-        <td>{data?.mobile}</td>
+        <td>{data?.email}</td>
       </tr>
     </>
   );

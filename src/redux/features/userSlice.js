@@ -30,11 +30,15 @@ const usersDataSlice = createSlice({
   },
 
   reducers: {
-    setUsers: (state, action) => {
-      state.usersData.push(action.payload);
+    addUser: (state, action) => {
+      // Instead of mutating state directly, return a new state
+      return {
+        ...state,
+        usersData: [...state.usersData, action.payload],
+      };
     },
   },
 });
 
-export const { setUsers } = usersDataSlice.actions;
+export const { addUser } = usersDataSlice.actions;
 export default usersDataSlice.reducer;

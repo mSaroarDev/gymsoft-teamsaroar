@@ -17,7 +17,7 @@ const AllTrainers = () => {
               <th>Designation</th>
               <th>Address</th>
               <th>Action</th>
-              <th>Mobile</th>
+              <th>Email</th>
             </tr>
           </thead>
 
