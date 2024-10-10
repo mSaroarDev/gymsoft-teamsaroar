@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,21 +8,81 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply font-poppins text-[14px];
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+main {
+  @apply w-full max-w-6xl mx-auto px-5;
 }
+
+/* nav links */
+.navbar-link {
+  @apply text-white hover:text-brand transition-all duration-200;
+}
+
+.hero-section {
+  background: rgb(25, 26, 35);
+  background: linear-gradient(
+    144deg,
+    rgba(25, 26, 35, 1) 0%,
+    rgba(62, 37, 36, 1) 100%
+  );
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  @apply w-full bg-slate-50 border-b-2 border-transparent px-4 py-2 rounded-md focus:outline-0 focus:border-0 focus:border-b-2 focus:border-brand mb-2;
+}
+
+/* forms */
+textarea {
+  @apply h-24 w-full bg-slate-50 border-b-2 border-transparent px-4 py-2 rounded-md focus:outline-0 focus:border-0 focus:border-b-2 focus:border-brand mb-2 resize-none;
+}
+
+/* animate submenu */
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.submenu-open {
+  max-height: 200px; /* Adjust based on submenu content */
+  opacity: 1;
+  transition: max-height 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.nav-link {
+  @apply px-5 py-2.5 border-b border-brand/20 capitalize flex items-center gap-3 text-white
+}
+
+
+._heading-underline h3 {
+  position: relative;
+  padding: 10px 0;
+  @apply border-b border-brand/20;
+}
+
+._heading-underline h3::before {
+  position: absolute;
+  height: 4px;
+  width: 80px;
+  content: "";
+  bottom: -2.5px;
+  left: 0;
+  @apply bg-brand;
+}
+
+/* tables */
+th, td {
+  @apply px-4 py-2 text-left whitespace-nowrap
+}
+
+tbody td {
+  @apply border-b border-brand/20
+}
+
+
