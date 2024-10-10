@@ -1,19 +1,9 @@
-"use client";
-import { useDispatch, useSelector } from "react-redux";
 import UserRow from "./UserRow";
-import { useEffect } from "react";
-import { fetchUsers } from "@/redux/features/userSlice";
+import { allUsers } from "@/libs/user";
 
-const DataList = () => {
-  // redux store
-  const { usersData } = useSelector((state) => state.users);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("fetching data");
-    
-    dispatch(fetchUsers());
-  }, []);
+const DataList = async () => {
+  const res = await allUsers();
+  const usersData = await res.data.data;
 
   return (
     <>

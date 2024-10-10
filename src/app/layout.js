@@ -1,7 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { StoreProvider } from "@/redux/providers/StoreProvider";
+import NextTopLoader from "nextjs-toploader";
+import { StoreProvider } from "./StoreProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster />
+        <NextTopLoader />
         <StoreProvider>{children}</StoreProvider>
       </body>
     </html>

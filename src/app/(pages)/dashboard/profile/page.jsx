@@ -11,7 +11,7 @@ import { PrimaryButton } from "@/subcomponents/Buttons";
 import MotionContainer from "@/components/MotionContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "@/libs/user";
-import { setCurrUser } from "@/redux/features/currUserSlice";
+import { setCurrUser } from "@/lib/features/currUserSlice";
 
 const ProfileCom = () => {
   // redux store

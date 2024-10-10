@@ -9,14 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import { register } from "@/libs/user";
-import { addUserThunk } from "@/redux/features/userSlice";
+import { addUserThunk } from "@/lib/features/users/userSlice";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/hooks";
 
 const NewTrainerForm = () => {
-  // redux store
-  const dispatch = useDispatch();
-  const { usersData, isLoading, error } = useSelector((state) => state.users);
-
+ 
   // utils
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -56,9 +54,10 @@ const NewTrainerForm = () => {
 
       try {
         setLoading(true);
-        const res = await dispatch(addUserThunk(values));
+        const res = await register(values)
 
-        if (res.type === "users/addUser/fulfilled") {
+        if (res.status === 200) {
+          router.refresh();
           router.push("/dashboard/all-trainers");
         } else {
           showError("Trainer Create Failed");

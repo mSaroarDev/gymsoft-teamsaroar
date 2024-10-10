@@ -1,6 +1,6 @@
 "use client";
 import { login } from "@/libs/user";
-import { setCurrUser } from "@/redux/features/currUserSlice";
+import { setCurrUser } from "@/lib/features/currUserSlice";
 // import { setCurrUser } from "@/features/user/currUserSlice";
 // import { setLogged } from "@/features/user/loginSlice";
 // import { createNotification } from "@/libs/notification";
