@@ -22,21 +22,32 @@ const AdminTopbar = () => {
 
   // logout
   const handleLogout = async () => {
-    try {
-      const res = await logout();
-      if (res.status === 200) {
-        showSuccess("Loggged out");
+    Swal.fire({
+      title: "Sure to Reject?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Confirm!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await logout();
+          if (res.status === 200) {
+            showSuccess("Loggged out");
+            router.push("/login");
 
-        // clear redux store
-        persistor.purge();
-        store.dispatch({ type: "LOGOUT" });
-        router.push("/login");
-      } else {
-        showError("Log out failed");
+            // clear redux store
+            persistor.purge();
+            store.dispatch({ type: "LOGOUT" });
+          } else {
+            showError("Log out failed");
+          }
+        } catch (error) {
+          showError("Internal Serer Error");
+        }
       }
-    } catch (error) {
-      showError("Internal Serer Error");
-    }
+    });
   };
 
   return (
