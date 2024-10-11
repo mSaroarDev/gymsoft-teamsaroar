@@ -6,21 +6,11 @@ import { NextResponse } from "next/server";
 export async function GET(req, res) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("userId");
-  const headerList = headers();
-  const currUserId = headerList.get("id");
-  console.log("currUserId", currUserId);
-
-  if (!id) {
-    return NextResponse.json(
-      { msg: "error", data: "user unauthorized" },
-      { status: 401 }
-    );
-  }
 
   try {
     await connectDB();
 
-    const data = await userModel.findOne({ _id: currUserId });
+    const data = await userModel.findOne({ _id: id });
 
     if (!data) {
       return NextResponse.json(

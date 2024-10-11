@@ -3,7 +3,7 @@ import CommonTitle from "@/subcomponents/CommonTitle";
 import { getSchedules } from "@/libs/schedule";
 import Datalist from "./Datalist";
 
-const Page = async () => {
+const TrainerSchedulePage = async () => {
   return (
     <>
       <MotionContainer>
@@ -32,4 +32,4 @@ const Page = async () => {
   );
 };
 
-export default Page;
+export default TrainerSchedulePage;

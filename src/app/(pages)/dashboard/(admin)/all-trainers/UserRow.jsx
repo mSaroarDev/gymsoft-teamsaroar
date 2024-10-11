@@ -2,6 +2,7 @@
 import { deleteUser } from "@/libs/user";
 import { showError, showSuccess } from "@/utils/toaster";
 import { Trash2, UserRoundPen } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -43,12 +44,19 @@ const UserRow = ({ data, i }) => {
         <td>{i + 1}</td>
         <td>{data?.name}</td>
         <td>{data?.designation}</td>
+        <td>{data?.role}</td>
         <td>{data?.address}</td>
         <td className="flex items-center gap-2">
-          <button className="bg-[#F4A62A] text-white p-2">
+          <Link
+            href={`/dashboard/all-trainers/edit?id=${data?._id}`}
+            className="bg-[#F4A62A] text-white p-2"
+          >
             <UserRoundPen className="w-4 h-4" />
-          </button>
-          <button onClick={handleDelete} className="bg-[#FA3F19] text-white p-2">
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="bg-[#FA3F19] text-white p-2"
+          >
             <Trash2 className="w-4 h-4" />
           </button>
         </td>

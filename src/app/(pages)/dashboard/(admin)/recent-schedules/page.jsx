@@ -1,10 +1,9 @@
 import MotionContainer from "@/components/MotionContainer";
 import CommonTitle from "@/subcomponents/CommonTitle";
-import UserRow from "../all-trainers/UserRow";
 import ScheduleRow from "./ScheduleRow";
 import { getSchedules } from "@/libs/schedule";
 
-const page = async () => {
+const RecentSchedulepage = async () => {
   // get schedules
   const res = await getSchedules();
  
@@ -37,4 +36,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default RecentSchedulepage;

@@ -6,10 +6,11 @@ import { PrimaryButton } from "@/subcomponents/Buttons";
 import { Form, Input, Label, Select } from "@/subcomponents/Forms";
 import { showError, showSuccess } from "@/utils/toaster";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const CreateScheduleForm = ({ usersData }) => {
+
   // filtered data
   const trainers = usersData?.filter((item) => item?.role === "Trainer") || [];
   const trainee = usersData?.filter((item) => item?.role === "Trainee") || [];
@@ -40,7 +41,12 @@ const CreateScheduleForm = ({ usersData }) => {
       traineeName: "",
       date: "",
       time: "",
-      approvalStatus: "Appointed",
+      approvalStatus:
+        currUserData?.role === "Admin"
+          ? "Appointed"
+          : currUserData?.role === "Trainee"
+          ? "Pending"
+          : "",
       createdBy: currUserData?._id,
     },
     onSubmit: async (values) => {
@@ -54,8 +60,12 @@ const CreateScheduleForm = ({ usersData }) => {
         const res = await createSchedule(values);
 
         if (res.status === 200) {
-          showSuccess("Schedule Created");
-          router.push("/dashboard/recent-schedules");
+          showSuccess("Success to Book a Schedule");
+          router.push(
+            currUserData?.role === "Admin"
+              ? "/dashboard/recent-schedules"
+              : "/dashboard/all-classes"
+          );
           router.refresh();
         } else {
           showError("Failed");
@@ -110,12 +120,18 @@ const CreateScheduleForm = ({ usersData }) => {
                 value={formik.values.traineeName}
               >
                 <option value="">Select a Trainee</option>
-                {trainee &&
+                {currUserData?.role !== "Admin" ? (
+                  <option value={currUserData?.name}>
+                    {currUserData?.name}
+                  </option>
+                ) : (
+                  trainee &&
                   trainee?.map((item, i) => (
                     <option key={i} value={item?.name}>
                       {item?.name}
                     </option>
-                  ))}
+                  ))
+                )}
               </Select>
             </div>
 
@@ -159,12 +175,10 @@ const CreateScheduleForm = ({ usersData }) => {
             />
           ) : (
             <PrimaryButton
-              text={"Update"}
+              text={currUserData?.role !== "Admin" ? "Submit Request" : "Assign"}
               type="submit"
               className="w-fit button-dark me-auto"
-            >
-              Submit
-            </PrimaryButton>
+            />
           )}
         </div>
       </Form>

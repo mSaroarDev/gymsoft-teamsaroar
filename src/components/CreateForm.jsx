@@ -1,16 +1,33 @@
 "use client";
 import { Form, Input, Label } from "@/subcomponents/Forms";
 import { ImageUp } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { CldUploadButton } from "next-cloudinary";
 import { showError } from "@/utils/toaster";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
-import { PrimaryButton } from "@/subcomponents/Buttons";
-import { register } from "@/libs/user";
-import { useRouter } from "next/navigation";
+import { BackButton, PrimaryButton } from "@/subcomponents/Buttons";
+import { editProfile, myProfile, register } from "@/libs/user";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const NewTrainerForm = () => {
+  // get query id
+  const id = useSearchParams().get('id');
+  const pathname = usePathname();
+
+  // get existing values if have
+  const [existingData, setExistingData] = useState({});
+  const fetchExistingData = async () => {
+    const res = await myProfile(id);
+    console.log("res", res.data.data);
+    
+    if(res.status === 200){
+      setExistingData(res.data.data)
+    } else {
+      setExistingData({})
+    }
+  }
+  
   // utils
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -50,13 +67,13 @@ const NewTrainerForm = () => {
 
       try {
         setLoading(true);
-        const res = await register(values);
+        const res = id ? await editProfile(id, values) : await register(values);
 
         if (res.status === 200) {
+          router.push(!id ? `/dashboard/all-trainers` : `${pathname}?id=${id}`);
           router.refresh();
-          router.push("/dashboard/all-trainers");
         } else {
-          showError("Trainer Create Failed");
+          showError(id ? "Profile Updated" : "Trainer Create Failed");
         }
       } catch (error) {
         showError("Internal Server Error");
@@ -66,8 +83,31 @@ const NewTrainerForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (id) {
+      fetchExistingData();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (existingData) {
+      formik.setValues({
+        name: existingData.name || '',
+        designation: existingData.designation || '',
+        address: existingData.address || '',
+        mobile: existingData.mobile || '',
+        email: existingData.email || '',
+        image: existingData.image || '',
+        role: existingData.role || '',
+      });
+    }
+    setImage(existingData?.image)
+  }, [existingData]);
+    
+
   return (
     <>
+    
       {/* profile update */}
       <Form onSubmit={formik.handleSubmit} className="mt-5">
         <div className="grid grid-cols-12 gap-5">

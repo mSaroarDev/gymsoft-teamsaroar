@@ -16,7 +16,7 @@ const Datalist = () => {
         const res = await getSchedules();
         
         const filteredData = res.data.data.filter(
-          (item) => item?.trainerName === currUserData?.name
+          (item) => item?.traineeName === currUserData?.name
         );
         setThisTrainerData(filteredData);
       } catch (error) {
@@ -36,7 +36,7 @@ const Datalist = () => {
           <ScheduleRow key={item?._id} data={item} sl={i} />
         )) : (
           <tr>
-            <td colspan="6">You have no assigned schedule</td>
+            <td colspan="7">You have no assigned schedule</td>
           </tr>
         )}
     </>

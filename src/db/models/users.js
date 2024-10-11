@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema(
     },
     designation: {
       type: String,
-      required: false,
+      required: true,
+      default: "Trainee",
     },
     address: {
       type: String,
