@@ -3,6 +3,8 @@ import userModel from "@/db/models/users";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req, res) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("userId");

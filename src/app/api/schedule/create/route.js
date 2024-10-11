@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/db/connectDB";
 import scheduleModel from "@/db/models/schedule";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req, res) {
   const formdata = await req.json();
   console.log("formdata", formdata);

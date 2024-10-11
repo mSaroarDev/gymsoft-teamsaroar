@@ -2,6 +2,8 @@ import { connectDB } from "@/db/connectDB";
 import userModel from "@/db/models/users";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function PATCH(req, res) {
   const formData = await req.json();
   const { name, designation, address, mobile, email, image, role } = formData;
