@@ -28,7 +28,7 @@ const page = async () => {
             </thead>
 
             <tbody>
-              <DataList data={res.data.data} />
+              <DataList data={res?.data?.data} />
             </tbody>
           </table>
         </div>

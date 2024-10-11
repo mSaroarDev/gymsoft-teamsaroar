@@ -4,8 +4,7 @@ import ScheduleRow from "../recent-schedules/ScheduleRow";
 
 const DataList = ({ data }) => {
   const { currUserData } = useAppSelector((state) => state.currUser);
-  console.log("currUserData", currUserData);
-  
+ 
   const requestsSchedules =
     data &&
     data.filter(
