@@ -32,7 +32,7 @@ const PageComp = () => {
               <div className="w-full md:w-[450px] box-shadow p-10">
                 <div className="flex flex-col gap-2 items-center justify-center">
                   <img src="/sign.svg" className="w-24 h-24 mb-5" />
-                  <H3 text="Sign in" />
+                  <H3 text="Sign up as Trainee" />
                 </div>
 
                 <SignUpForm />

@@ -41,8 +41,7 @@ const SignUpForm = () => {
         if (res.status === 409) {
           showError("Email already exist");
         } else if (res.status === 200) {
-          showSuccess("Logged in");
-          router.refresh();
+          showSuccess("Register Sucess");
           router.replace("/login");
         } else {
           showError("Something is wrong");
@@ -91,7 +90,7 @@ const SignUpForm = () => {
               className="bg-black text-white rounded-md border border-black text-main font-semibold px-5 py-1.5 flex items-center justify-center gap-2 pointer-events-none"
             >
               <ButtonSpinner />
-              <span>Signing In</span>
+              <span>Registering...</span>
             </button>
           </div>
         ) : (
@@ -100,7 +99,7 @@ const SignUpForm = () => {
               type="submit"
               className="bg-black text-white rounded-md border border-black text-main font-semibold px-5 py-1.5"
             >
-              Sign In
+              Register
             </button>
           </div>
         )}

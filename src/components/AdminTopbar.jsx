@@ -7,6 +7,7 @@ import { showError, showSuccess } from "@/utils/toaster";
 import { useRouter } from "next/navigation";
 import { logout } from "@/libs/user";
 import { useDispatch, useSelector } from "react-redux";
+import { persistor, store } from "@/redux/store";
 
 const AdminTopbar = () => {
   // redux store
@@ -25,6 +26,10 @@ const AdminTopbar = () => {
       const res = await logout();
       if (res.status === 200) {
         showSuccess("Loggged out");
+
+        // clear redux store
+        persistor.purge();
+        store.dispatch({ type: "LOGOUT" });
         router.push("/login");
       } else {
         showError("Log out failed");
@@ -34,7 +39,6 @@ const AdminTopbar = () => {
     }
   };
 
-
   return (
     <>
       <div className="bg-white ml-0 md:ml-[250px] w-full md:w-auto shadow-md fixed top-0 left-0 right-0 z-50">
@@ -42,7 +46,10 @@ const AdminTopbar = () => {
           <H1 className="text-lg md:hidden" text={"Gymnessia"} />
           <div className="flex items-center justify-center gap-4">
             <div className="text-right">
-              <H3 className="text-base font-semibold" text={currUserData.name} />
+              <H3
+                className="text-base font-semibold"
+                text={currUserData.name}
+              />
               <P text={currUserData.designation} />
             </div>
             <div

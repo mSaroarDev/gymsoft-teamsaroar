@@ -10,7 +10,15 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({
+const rootReducer = (state, action) => {
+  if (action.type === "LOGOUT") {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
+
+const appReducer = combineReducers({
   currUser: currUserSlice,
   users: usersDataSlice,
   schedule: schedulesSlice,
@@ -19,7 +27,7 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
-  // devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
