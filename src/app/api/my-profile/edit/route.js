@@ -13,7 +13,7 @@ export async function PATCH(req, res) {
   try {
     await connectDB();
 
-    const updatedData = await userModel.findByIdAndUpdate(
+    const data = await userModel.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
@@ -32,15 +32,7 @@ export async function PATCH(req, res) {
     return NextResponse.json(
       {
         msg: "success",
-        data: {
-          _id: id,
-          name: updatedData.name,
-          designation: updatedData.designation,
-          address: updatedData.address,
-          email: updatedData.email,
-          mobile: updatedData.mobile,
-          image: updatedData.image,
-        },
+        data,
       },
       { status: 200 }
     );

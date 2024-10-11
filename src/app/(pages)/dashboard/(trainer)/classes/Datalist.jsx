@@ -1,7 +1,7 @@
 "use client";
-import { useAppSelector } from "@/lib/hooks";
 import ScheduleRow from "../../(admin)/recent-schedules/ScheduleRow";
 import { getSchedules } from "@/libs/schedule";
+import { useAppSelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 
 const Datalist = () => {

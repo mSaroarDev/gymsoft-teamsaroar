@@ -9,8 +9,8 @@ import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import { editProfile, myProfile, register } from "@/libs/user";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addUser, addUserThunk } from "@/lib/features/users/userSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addUser } from "@/redux/features/users/userSlice";
 
 const NewTrainerForm = () => {
   // get query id

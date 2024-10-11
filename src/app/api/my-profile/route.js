@@ -21,23 +21,10 @@ export async function GET(req, res) {
       );
     }
 
-    // destacture data
-    const { _id, name, designation, address, email, mobile, image, role } =
-      data;
-
     return NextResponse.json(
       {
         msg: "success",
-        data: {
-          _id,
-          name,
-          designation,
-          address,
-          email,
-          mobile,
-          image,
-          role,
-        },
+        data,
       },
       { status: 200 }
     );

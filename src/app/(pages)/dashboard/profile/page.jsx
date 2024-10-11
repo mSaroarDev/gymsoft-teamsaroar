@@ -11,12 +11,13 @@ import { PrimaryButton } from "@/subcomponents/Buttons";
 import MotionContainer from "@/components/MotionContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "@/libs/user";
-import { setCurrUser } from "@/lib/features/currUserSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setCurrUser } from "@/redux/features/currUserSlice";
 
 const ProfileCom = () => {
   // redux store
-  const { currUserData } = useSelector((state) => state.currUser);
-  const dispatch = useDispatch();
+  const { currUserData } = useAppSelector((state) => state.currUser);
+  const dispatch = useAppDispatch();
 
   // utils
   const [loading, setLoading] = useState(false);

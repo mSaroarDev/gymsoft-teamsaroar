@@ -1,10 +1,6 @@
 "use client";
 import { login } from "@/libs/user";
-import { setCurrUser } from "@/lib/features/currUserSlice";
-// import { setCurrUser } from "@/features/user/currUserSlice";
-// import { setLogged } from "@/features/user/loginSlice";
-// import { createNotification } from "@/libs/notification";
-// import { myProfile, userLogin } from "@/libs/user";
+import { setCurrUser } from "@/redux/features/currUserSlice";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { Form, Input } from "@/subcomponents/Forms";
 import { showError, showSuccess } from "@/utils/toaster";
@@ -38,7 +34,6 @@ const SignInForm = () => {
       try {
         setLoading(true);
         const res = await login(values);
-        console.log(res);
         
         if (res.status === 401) {
           showError("Wrong Email or Password");

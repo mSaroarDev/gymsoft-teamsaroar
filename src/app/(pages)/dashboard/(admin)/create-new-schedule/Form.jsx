@@ -1,39 +1,25 @@
 "use client";
-import { useAppSelector } from "@/lib/hooks";
 import { createSchedule } from "@/libs/schedule";
+import { addSchedule } from "@/redux/features/schedules/schedulesSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import { Form, Input, Label, Select } from "@/subcomponents/Forms";
 import { showError, showSuccess } from "@/utils/toaster";
 import { useFormik } from "formik";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const CreateScheduleForm = ({ usersData }) => {
-
   // filtered data
   const trainers = usersData?.filter((item) => item?.role === "Trainer") || [];
   const trainee = usersData?.filter((item) => item?.role === "Trainee") || [];
   const { currUserData } = useAppSelector((state) => state.currUser);
-  
+  const dispatch = useAppDispatch();
 
   // utils
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  // fill with existing data
-  //   useEffect(() => {
-  //     formik.setValues({
-  //       name: userData?.name,
-  //       designation: userData?.designation,
-  //       address: userData?.address,
-  //       mobile: userData?.mobile,
-  //       email: userData?.email,
-  //       image: userData?.image,
-  //     });
-
-  //     setImage(userData?.image);
-  //   }, [userData]);
 
   // formik
   const formik = useFormik({
@@ -41,7 +27,7 @@ const CreateScheduleForm = ({ usersData }) => {
       trainerName: "",
       traineeName: "",
       date: "",
-      time: "",
+      startTime: "",
       approvalStatus:
         currUserData?.role === "Admin"
           ? "Appointed"
@@ -51,8 +37,8 @@ const CreateScheduleForm = ({ usersData }) => {
       createdBy: currUserData?._id,
     },
     onSubmit: async (values) => {
-      const { trainerName, traineeName, date, time } = values;
-      if (!trainerName || !traineeName || !date || !time) {
+      const { trainerName, traineeName, date, startTime } = values;
+      if (!trainerName || !traineeName || !date || !startTime) {
         return showError("All Fields Must be Filled");
       }
 
@@ -62,17 +48,20 @@ const CreateScheduleForm = ({ usersData }) => {
 
         if (res.status === 200) {
           showSuccess("Success to Book a Schedule");
+          dispatch(addSchedule(res.data.data));
           router.push(
             currUserData?.role === "Admin"
               ? "/dashboard/recent-schedules"
               : "/dashboard/all-classes"
           );
-          router.refresh();
+        } else if (res.status === 404) {
+          showError("Trainer Not Available with conditions");
         } else {
           showError("Failed");
         }
       } catch (error) {
-        time;
+        console.log("error", error);
+
         showError("Internal Server Error");
       } finally {
         setLoading(false);
@@ -149,13 +138,13 @@ const CreateScheduleForm = ({ usersData }) => {
             </div>
 
             <div className="w-full col-span-12 md:col-span-6">
-              <Label text={"Time"} />
+              <Label text={"Start Time"} />
               <Input
-                id="time"
-                name="time"
+                id="startTime"
+                name="startTime"
                 type="time"
                 onChange={formik.handleChange}
-                value={formik.values.time}
+                value={formik.values.startTime}
                 placeholder="Enter address"
               />
             </div>
@@ -176,7 +165,9 @@ const CreateScheduleForm = ({ usersData }) => {
             />
           ) : (
             <PrimaryButton
-              text={currUserData?.role !== "Admin" ? "Submit Request" : "Assign"}
+              text={
+                currUserData?.role !== "Admin" ? "Submit Request" : "Assign"
+              }
               type="submit"
               className="w-fit button-dark me-auto"
             />

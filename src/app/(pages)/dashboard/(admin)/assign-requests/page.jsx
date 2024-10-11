@@ -1,12 +1,8 @@
 import MotionContainer from "@/components/MotionContainer";
 import CommonTitle from "@/subcomponents/CommonTitle";
-import ScheduleRow from "../recent-schedules/ScheduleRow";
-import { getSchedules } from "@/libs/schedule";
 import DataList from "./DataList";
 
 const page = async () => {
-  // get schedules
-  const res = await getSchedules();
 
   return (
     <>
@@ -21,14 +17,15 @@ const page = async () => {
                 <th>Trainer Name</th>
                 <th>Trainee Name</th>
                 <th>Date</th>
-                <th>Time</th>
+                <th>Start Time</th>
+                <th>End Time</th>
                 <th>Action</th>
                 <th>Status</th>
               </tr>
             </thead>
 
             <tbody>
-              <DataList data={res?.data?.data} />
+              <DataList />
             </tbody>
           </table>
         </div>

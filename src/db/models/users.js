@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema(
       enum: ["Admin", "Trainer", "Trainee"],
       default: "Trainee",
     },
+    avaibility: {
+      type: Object,
+      required: false,
+    },
     status: {
       type: String,
       enum: ["Active", "Pending", "Blocked"],

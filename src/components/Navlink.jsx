@@ -1,19 +1,23 @@
+
+import { useAppSelector } from "@/redux/hooks";
 import {
-  AlignJustify,
   ChevronDown,
   ChevronUp,
   Circle,
   ContactRound,
   FileText,
   Layers3,
-  LayoutPanelLeft,
-  MessageSquareDot,
-  MessagesSquare,
+  LayoutPanelLeft
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 const Navlink = () => {
+  // currUser
+  const { currUserData } = useAppSelector((state) => state.currUser);
+  const currUserRole = currUserData?.role
+  // the currUserData holding the roles Admin, Trainer or Trainee
+
   const navLinks = [
     {
       id: 1,
@@ -72,7 +76,7 @@ const Navlink = () => {
 
   return (
     <>
-      {navLinks?.map((item, i) => (
+      {navLinks?.filter((link)=> link?.role?.includes(currUserRole))?.map((item, i) => (
         <div key={item.id}>
           <Link
             onClick={

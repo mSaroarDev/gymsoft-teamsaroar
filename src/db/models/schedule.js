@@ -11,17 +11,22 @@ const scheduleSchema = new mongoose.Schema(
       required: true,
     },
     date: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
+    startTime: {
       type: String,
       required: true,
     },
-    time: {
+    endTime: {
       type: String,
       required: true,
     },
     currStatus: {
       type: String,
       required: true,
-      enum: ["Pending", "Completed"],
+      enum: ["Pending", "Assigned", "Completed"],
       default: "Pending",
     },
     approvalStatus: {

@@ -1,22 +1,24 @@
 "use client";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import ScheduleRow from "../recent-schedules/ScheduleRow";
 
-const DataList = ({ data }) => {
+const DataList = () => {
   const { currUserData } = useAppSelector((state) => state.currUser);
+  const { schedulesData } = useAppSelector((state) => state.schedule);
  
   const requestsSchedules =
-    data &&
-    data.filter(
+  schedulesData &&
+  schedulesData.filter(
       (item) =>
         item?.approvalStatus === "Pending" &&
         item?.createdBy !== currUserData?._id
     );
+
   return (
     <>
       {requestsSchedules < 1 ? (
         <tr>
-          <td colSpan="7">No pending schedule request found!</td>
+          <td colSpan="8">No pending schedule request found!</td>
         </tr>
       ) : (
         requestsSchedules &&
