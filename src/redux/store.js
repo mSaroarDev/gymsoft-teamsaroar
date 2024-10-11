@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import currUserSlice from "./features/currUserSlice";
 import usersDataSlice from "./features/users/userSlice";
 import schedulesSlice from "./features/schedules/schedulesSlice";
+import statisticsSlice from "./features/stats/statsSlice";
 
 const persistConfig = {
   key: "root",
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   currUser: currUserSlice,
   users: usersDataSlice,
   schedule: schedulesSlice,
+  statistics: statisticsSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

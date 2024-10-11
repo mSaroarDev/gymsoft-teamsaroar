@@ -1,13 +1,13 @@
 import MotionContainer from "@/components/MotionContainer";
-import OverView from "./Overview";
-
+import CommonTitle from "@/subcomponents/CommonTitle";
+import DataList from "./DataList";
 
 const OverViewPage = () => {
     return (
         <>
             <MotionContainer>
-
-                Framer Motion
+                <CommonTitle text={"Overview"} />
+                <DataList />
             </MotionContainer>
         </>
     );

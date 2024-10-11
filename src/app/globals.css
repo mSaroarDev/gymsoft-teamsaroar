@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply font-poppins text-[14px];
+  @apply bg-[#f7f7f7] font-poppins text-[14px];
 }
 
 main {
@@ -74,6 +74,10 @@ textarea {
   bottom: -2.5px;
   left: 0;
   @apply bg-brand;
+}
+
+.box-shadow {
+  box-shadow: 0px 3px 10px 0px rgba(63, 112, 248, 0.15);
 }
 
 /* tables */

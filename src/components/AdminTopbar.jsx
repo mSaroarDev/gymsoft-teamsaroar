@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/libs/user";
 import { useDispatch, useSelector } from "react-redux";
 import { persistor, store } from "@/redux/store";
+import Swal from "sweetalert2";
 
 const AdminTopbar = () => {
   // redux store
@@ -23,7 +24,7 @@ const AdminTopbar = () => {
   // logout
   const handleLogout = async () => {
     Swal.fire({
-      title: "Sure to Reject?",
+      title: "Sure to Logout?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
