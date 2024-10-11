@@ -10,7 +10,7 @@ import { PrimaryButton } from "@/subcomponents/Buttons";
 import { editProfile, myProfile, register } from "@/libs/user";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addUser } from "@/redux/features/users/userSlice";
+import { addUser, editUser } from "@/redux/features/users/userSlice";
 
 const NewTrainerForm = () => {
   // get query id
@@ -74,7 +74,7 @@ const NewTrainerForm = () => {
         const res = id ? await editProfile(id, values) : await register(values);
 
         if (res.status === 200) {
-          dispatch(addUser(res?.data?.data))
+          id ? dispatch(editUser({id: res?.data?._id, data: res?.data?.data})) : dispatch(addUser(res?.data?.data))
           showSuccess(id ? `Profile Updated` : `Profile Created`)
           router.push(!id ? `/dashboard/all-trainers` : `${pathname}?id=${id}`);
         } else {

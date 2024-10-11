@@ -5,6 +5,7 @@ import {
   removeSchedule,
 } from "@/redux/features/schedules/schedulesSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { convertDate } from "@/utils/convertDate";
 import { showError, showSuccess } from "@/utils/toaster";
 import { Check, X } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -89,7 +90,7 @@ const ScheduleRow = ({ data, sl }) => {
         <td>{sl + 1}</td>
         <td>{data?.trainerName}</td>
         <td>{data?.traineeName}</td>
-        <td>{data?.date}</td>
+        <td>{convertDate(data?.date)}</td>
         <td>{data?.startTime} </td>
         <td>{data?.endTime}</td>
         {(currUserData?.role === "Admin" && pathname !== "/dashboard/recent-schedules") && (

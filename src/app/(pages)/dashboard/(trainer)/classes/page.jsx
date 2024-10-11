@@ -19,7 +19,6 @@ const TrainerSchedulePage = async () => {
                 <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-                <th>Action</th>
                 <th>Status</th>
               </tr>
             </thead>

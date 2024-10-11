@@ -41,7 +41,7 @@ const AdminTopbar = () => {
 
   return (
     <>
-      <div className="bg-white ml-0 md:ml-[250px] w-full md:w-auto shadow-md fixed top-0 left-0 right-0 z-50">
+      <div className="bg-white ml-0 md:ml-[250px] w-full md:w-auto shadow-md fixed top-0 left-0 right-0 z-40">
         <div className="flex items-center justify-between md:justify-end p-3">
           <H1 className="text-lg md:hidden" text={"Gymnessia"} />
           <div className="flex items-center justify-center gap-4">

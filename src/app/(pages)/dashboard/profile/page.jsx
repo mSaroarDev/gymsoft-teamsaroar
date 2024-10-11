@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editProfile } from "@/libs/user";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setCurrUser } from "@/redux/features/currUserSlice";
+import Loading from "@/subcomponents/Loading";
 
 const ProfileCom = () => {
   // redux store
@@ -87,7 +88,7 @@ const ProfileCom = () => {
     },
   });
 
-  return (
+  return loading ? <Loading /> :  (
     <MotionContainer>
       <H5 text={"My Profile"} className="text-lg font-bold" />
 

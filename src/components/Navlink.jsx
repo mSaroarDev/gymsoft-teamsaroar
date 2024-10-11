@@ -16,7 +16,6 @@ const Navlink = () => {
   // currUser
   const { currUserData } = useAppSelector((state) => state.currUser);
   const currUserRole = currUserData?.role
-  // the currUserData holding the roles Admin, Trainer or Trainee
 
   const navLinks = [
     {

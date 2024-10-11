@@ -3,8 +3,8 @@ import MotionContainer from "@/components/MotionContainer";
 import { BackButton } from "@/subcomponents/Buttons";
 import CommonTitle from "@/subcomponents/CommonTitle";
 
-const UserEditForm = ({searchParams}) => {
-    const id = searchParams.id;
+const UserEditForm = ({ searchParams }) => {
+  const id = searchParams.id;
 
   return (
     <>

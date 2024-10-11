@@ -8,15 +8,6 @@ export const fetchUsers = createAsyncThunk("fetchUsers", async () => {
   return res.data.data;
 });
 
-// add new user
-// export const addUserThunk = createAsyncThunk(
-//   "users/addUser",
-//   async (values) => {
-//     const res = await register(values);
-//     return res.data.data;
-//   }
-// );
-
 let initialState = {
   isLoading: false,
   usersData: [],
@@ -28,10 +19,22 @@ const usersDataSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action) => {
-      return {
-        ...state,
-        usersData: [...state.usersData, action.payload],
-      };
+      state.usersData.push(action.payload);
+    },
+
+    editUser: (state, action) => {
+      const { id, data } = action.payload;
+      const userIndex = state.usersData.findIndex((user) => user.id === id);
+      if (userIndex !== -1) {
+        state.usersData[userIndex] = { ...state.usersData[userIndex], ...data };
+      }
+    },
+
+    deleteUserAction: (state, action) => {
+      state.usersData = state.usersData.filter(
+        (user) => user._id !== action.payload
+      );
+      console.log("remainingItems", state.usersData);
     },
   },
 
@@ -47,22 +50,8 @@ const usersDataSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.error = true;
       });
-
-    // add user
-    // .addCase(addUserThunk.pending, (state) => {
-    //   state.isLoading = true;
-    //   state.error = null; // Reset error state on new request
-    // })
-    // .addCase(addUserThunk.fulfilled, (state, action) => {
-    //   state.isLoading = false;
-    //   (state.isLoading = false), state.usersData.push(action.payload);
-    // })
-    // .addCase(addUserThunk.rejected, (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = true;
-    // });
   },
 });
 
-export const { addUser } = usersDataSlice.actions;
+export const { addUser, editUser, deleteUserAction } = usersDataSlice.actions;
 export default usersDataSlice.reducer;

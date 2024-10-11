@@ -1,16 +1,18 @@
 "use client";
 import { deleteUser } from "@/libs/user";
+import { deleteUserAction } from "@/redux/features/users/userSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { showError, showSuccess } from "@/utils/toaster";
 import { Trash2, UserRoundPen } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 
 const UserRow = ({ data, i }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
 
   // delete user
   const handleDelete = () => {
@@ -24,8 +26,8 @@ const UserRow = ({ data, i }) => {
         try {
           const res = await deleteUser(data?._id);
           if (res.status === 200) {
-            router.refresh();
             showSuccess("User Deleted");
+            dispatch(deleteUserAction(data?._id));
           } else {
             showError("User Delete Failed");
           }
