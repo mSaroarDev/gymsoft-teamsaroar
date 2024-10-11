@@ -29,7 +29,14 @@ export const login = async (values) => {
 export const logout = async () => {
   try {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/logout`,
+      {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
     return res;
   } catch (error) {
@@ -41,7 +48,14 @@ export const logout = async () => {
 export const myProfile = async (id) => {
   try {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my-profile?userId=${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/my-profile?userId=${id}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
     return res;
   } catch (error) {
@@ -66,7 +80,14 @@ export const editProfile = async (id, values) => {
 export const allUsers = async () => {
   try {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/all`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/all`,
+      {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
     return res;
   } catch (error) {
@@ -78,7 +99,14 @@ export const allUsers = async () => {
 export const deleteUser = async (id) => {
   try {
     const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/delete?userId=${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/delete?userId=${id}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
     return res;
   } catch (error) {

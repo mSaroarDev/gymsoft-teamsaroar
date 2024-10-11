@@ -17,7 +17,14 @@ export const createSchedule = async (values) => {
 export const getSchedules = async (vlues) => {
   try {
     const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/schedule/all`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/schedule/all`,
+      {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
     );
     return res;
   } catch (error) {
