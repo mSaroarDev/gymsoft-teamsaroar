@@ -2,8 +2,12 @@ import MotionContainer from "@/components/MotionContainer";
 import CommonTitle from "@/subcomponents/CommonTitle";
 import UserRow from "../all-trainers/UserRow";
 import ScheduleRow from "./ScheduleRow";
+import { getSchedules } from "@/libs/schedule";
 
-const page = () => {
+const page = async () => {
+  // get schedules
+  const res = await getSchedules();
+ 
   return (
     <>
       <MotionContainer>
@@ -16,6 +20,7 @@ const page = () => {
                 <th>Sl</th>
                 <th>Trainer Name</th>
                 <th>Trainee Name</th>
+                <th>Date</th>
                 <th>Time</th>
                 <th>Action</th>
                 <th>Status</th>
@@ -23,13 +28,7 @@ const page = () => {
             </thead>
 
             <tbody>
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
+              {res && res?.data?.data?.map((item, i)=> <ScheduleRow key={item?._id} data={item} sl={i} />)}
             </tbody>
           </table>
         </div>

@@ -1,8 +1,10 @@
 import NewTrainerForm from "@/components/CreateForm";
 import MotionContainer from "@/components/MotionContainer";
+import { allUsers } from "@/libs/user";
 import CommonTitle from "@/subcomponents/CommonTitle";
 
-const page = () => {
+const page = async () => {
+
   return (
     <MotionContainer>
       <CommonTitle text={"Add New Trainer"} />

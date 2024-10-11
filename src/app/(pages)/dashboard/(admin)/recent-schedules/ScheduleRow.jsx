@@ -1,13 +1,15 @@
-import { Trash2, UserRoundPen, X } from "lucide-react";
+import { plusTwoHours } from "@/utils/PlusTwoHour";
+import { UserRoundPen, X } from "lucide-react";
 
-const ScheduleRow = () => {
+const ScheduleRow = ({data, sl}) => {
   return (
     <>
       <tr>
-        <td>01</td>
-        <td>Saroar Jahan</td>
-        <td>Amit Kumar</td>
-        <td>10.00 am - 12.00 pm</td>
+        <td>{sl + 1}</td>
+        <td>{data?.trainerName}</td>
+        <td>{data?.traineeName}</td>
+        <td>{data?.date}</td>
+        <td>{data?.time} - {plusTwoHours(data?.time)}</td>
         <td className="flex items-center gap-2">
           <button className="bg-[#F4A62A] text-white p-2">
             <UserRoundPen className="w-4 h-4" />
@@ -17,7 +19,7 @@ const ScheduleRow = () => {
           </button>
         </td>
         <td>
-          <span className="bg-green-600 text-white px-3 py-1 rounded-md text-xs">Completed</span>
+          <span className="bg-green-600 text-white px-3 py-1 rounded-md text-xs">{data?.approvalStatus}</span>
         </td>
       </tr>
     </>

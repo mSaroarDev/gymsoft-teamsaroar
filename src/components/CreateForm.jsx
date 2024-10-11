@@ -5,16 +5,12 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import { CldUploadButton } from "next-cloudinary";
 import { showError } from "@/utils/toaster";
-import { useDispatch, useSelector } from "react-redux";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import { register } from "@/libs/user";
-import { addUserThunk } from "@/lib/features/users/userSlice";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/lib/hooks";
 
 const NewTrainerForm = () => {
- 
   // utils
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -54,7 +50,7 @@ const NewTrainerForm = () => {
 
       try {
         setLoading(true);
-        const res = await register(values)
+        const res = await register(values);
 
         if (res.status === 200) {
           router.refresh();

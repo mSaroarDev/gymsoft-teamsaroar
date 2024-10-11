@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 
-const UserRow = ({ data }) => {
+const UserRow = ({ data, i }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +40,7 @@ const UserRow = ({ data }) => {
   return (
     <>
       <tr>
-        <td>01</td>
+        <td>{i + 1}</td>
         <td>{data?.name}</td>
         <td>{data?.designation}</td>
         <td>{data?.address}</td>

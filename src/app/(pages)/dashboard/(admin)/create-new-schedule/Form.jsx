@@ -1,15 +1,23 @@
 "use client";
+import { useAppSelector } from "@/lib/hooks";
+import { createSchedule } from "@/libs/schedule";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
-import { Form, Input, Label } from "@/subcomponents/Forms";
+import { Form, Input, Label, Select } from "@/subcomponents/Forms";
+import { showError, showSuccess } from "@/utils/toaster";
 import { useFormik } from "formik";
-import { ImageUp } from "lucide-react";
-import { CldUploadButton } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const CreateScheduleForm = () => {
+const CreateScheduleForm = ({ usersData }) => {
+  // filtered data
+  const trainers = usersData?.filter((item) => item?.role === "Trainer") || [];
+  const trainee = usersData?.filter((item) => item?.role === "Trainee") || [];
+  const { currUserData } = useAppSelector((state) => state.currUser);
+
   // utils
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   // fill with existing data
   //   useEffect(() => {
@@ -25,55 +33,39 @@ const CreateScheduleForm = () => {
   //     setImage(userData?.image);
   //   }, [userData]);
 
-  // cloudinary
-  const [image, setImage] = useState(null);
-  const handleImageUpload = function (result) {
-    const info = result?.info;
-
-    if ("secure_url" in info && "public_id" in info) {
-      const public_id = info.public_id;
-      const imgUrl = info.secure_url;
-      // setPublicId(public_id);
-      setImage(imgUrl);
-      formik.setFieldValue("image", imgUrl);
-      // formik.setFieldValue("image_public_id", public_id);
-    }
-  };
-
   // formik
   const formik = useFormik({
     initialValues: {
-      name: "",
-      designation: "",
-      address: "",
-      mobile: "",
-      email: "",
-      image: "",
+      trainerName: "",
+      traineeName: "",
+      date: "",
+      time: "",
+      approvalStatus: "Appointed",
+      createdBy: currUserData?._id,
     },
     onSubmit: async (values) => {
-      const { name, designation, address, mobile, email, image } = values;
-      if (!name || !designation || !address || !mobile || !email || !image) {
+      const { trainerName, traineeName, date, time } = values;
+      if (!trainerName || !traineeName || !date || !time) {
         return showError("All Fields Must be Filled");
       }
 
-      //   try {
-      //     setLoading(true);
-      //     const res = await updateProfile(userData?.id, values);
+      try {
+        setLoading(true);
+        const res = await createSchedule(values);
 
-      //     if (res.ok) {
-      //       showSuccess("Profile Updated");
-
-      //       const data = await res.json();
-      //       // update store
-      //       dispatch(setCurrUser(data?.data));
-      //     } else {
-      //       showError("Profile Update Failed");
-      //     }
-      //   } catch (error) {
-      //     showError("Internal Server Error");
-      //   } finally {
-      //     setLoading(false);
-      //   }
+        if (res.status === 200) {
+          showSuccess("Schedule Created");
+          router.push("/dashboard/recent-schedules");
+          router.refresh();
+        } else {
+          showError("Failed");
+        }
+      } catch (error) {
+        time;
+        showError("Internal Server Error");
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -93,33 +85,60 @@ const CreateScheduleForm = () => {
           <div className="col-span-12 md:col-span-10 grid grid-cols-12 gap-5">
             <div className="w-full col-span-12 md:col-span-6">
               <Label text={"Trainer Name"} />
-              <Input
-                id="name"
-                name="name"
+              <Select
+                id="trainerName"
+                name="trainerName"
                 onChange={formik.handleChange}
-                value={formik.values.name}
-                placeholder="Enter name"
-              />
+                value={formik.values.trainerName}
+              >
+                <option value="">Select a Trainer</option>
+                {trainers &&
+                  trainers?.map((item, i) => (
+                    <option key={i} value={item?.name}>
+                      {item?.name}
+                    </option>
+                  ))}
+              </Select>
             </div>
 
             <div className="w-full col-span-12 md:col-span-6">
               <Label text={"Trainee Name"} />
-              <Input
-                id="designation"
-                name="designation"
+              <Select
+                id="traineeName"
+                name="traineeName"
                 onChange={formik.handleChange}
-                value={formik.values.designation}
-                placeholder="Enter designation"
+                value={formik.values.traineeName}
+              >
+                <option value="">Select a Trainee</option>
+                {trainee &&
+                  trainee?.map((item, i) => (
+                    <option key={i} value={item?.name}>
+                      {item?.name}
+                    </option>
+                  ))}
+              </Select>
+            </div>
+
+            <div className="w-full col-span-12 md:col-span-6">
+              <Label text={"Date"} />
+              <Input
+                id="date"
+                name="date"
+                type="date"
+                onChange={formik.handleChange}
+                value={formik.values.date}
+                placeholder="Enter address"
               />
             </div>
 
             <div className="w-full col-span-12 md:col-span-6">
               <Label text={"Time"} />
               <Input
-                id="address"
-                name="address"
+                id="time"
+                name="time"
+                type="time"
                 onChange={formik.handleChange}
-                value={formik.values.address}
+                value={formik.values.time}
                 placeholder="Enter address"
               />
             </div>
@@ -132,7 +151,7 @@ const CreateScheduleForm = () => {
               text={
                 <>
                   <ButtonSpinner />
-                  <span>Updating! Please wait</span>
+                  <span>Please wait</span>
                 </>
               }
               type="submit"
@@ -144,7 +163,7 @@ const CreateScheduleForm = () => {
               type="submit"
               className="w-fit button-dark me-auto"
             >
-              Update
+              Submit
             </PrimaryButton>
           )}
         </div>

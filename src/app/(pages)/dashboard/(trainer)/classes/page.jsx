@@ -1,8 +1,9 @@
 import MotionContainer from "@/components/MotionContainer";
 import CommonTitle from "@/subcomponents/CommonTitle";
-import ScheduleRow from "../../(admin)/recent-schedules/ScheduleRow";
+import { getSchedules } from "@/libs/schedule";
+import Datalist from "./Datalist";
 
-const page = () => {
+const Page = async () => {
   return (
     <>
       <MotionContainer>
@@ -15,20 +16,14 @@ const page = () => {
                 <th>Sl</th>
                 <th>Trainer Name</th>
                 <th>Trainee Name</th>
+                <th>Date</th>
                 <th>Time</th>
                 <th>Action</th>
                 <th>Status</th>
               </tr>
             </thead>
-
             <tbody>
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
-              <ScheduleRow />
+              <Datalist />
             </tbody>
           </table>
         </div>
@@ -37,4 +32,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

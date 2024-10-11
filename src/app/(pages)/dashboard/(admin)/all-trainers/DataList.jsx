@@ -8,7 +8,7 @@ const DataList = async () => {
   return (
     <>
       {usersData &&
-        usersData?.map((item) => <UserRow key={item?._id} data={item} />)}
+        usersData?.map((item, i) => <UserRow key={item?._id} data={item} i={i} />)}
     </>
   );
 };
