@@ -5,10 +5,8 @@ import { getSchedules } from "@/libs/schedule";
 import { useEffect, useState } from "react";
 
 const Datalist = () => {
-    
   const { currUserData } = useAppSelector((state) => state.currUser);
   
-
   const [thisTrainerData, setThisTrainerData] = useState([]);
   useEffect(() => {
     const fetchSchedules = async () => {
@@ -36,7 +34,7 @@ const Datalist = () => {
           <ScheduleRow key={item?._id} data={item} sl={i} />
         )) : (
           <tr>
-            <td colspan="7">You have no assigned schedule</td>
+            <td colSpan="7">You have no assigned schedule</td>
           </tr>
         )}
     </>

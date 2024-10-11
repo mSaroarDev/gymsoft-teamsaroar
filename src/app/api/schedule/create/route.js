@@ -4,6 +4,7 @@ import scheduleModel from "@/db/models/schedule";
 
 export async function POST(req, res) {
   const formdata = await req.json();
+  console.log("formdata", formdata);
 
   try {
     await connectDB();

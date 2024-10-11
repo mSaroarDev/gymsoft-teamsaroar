@@ -1,33 +1,34 @@
 "use client";
-import { Form, Input, Label } from "@/subcomponents/Forms";
+import { Form, Input, Label, Select } from "@/subcomponents/Forms";
 import { ImageUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { CldUploadButton } from "next-cloudinary";
-import { showError } from "@/utils/toaster";
+import { showError, showSuccess } from "@/utils/toaster";
 import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
-import { BackButton, PrimaryButton } from "@/subcomponents/Buttons";
+import { PrimaryButton } from "@/subcomponents/Buttons";
 import { editProfile, myProfile, register } from "@/libs/user";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useAppSelector } from "@/lib/hooks";
 
 const NewTrainerForm = () => {
   // get query id
-  const id = useSearchParams().get('id');
+  const id = useSearchParams().get("id");
   const pathname = usePathname();
+  const { currUserData } = useAppSelector((state) => state.currUser);
 
   // get existing values if have
   const [existingData, setExistingData] = useState({});
   const fetchExistingData = async () => {
     const res = await myProfile(id);
-    console.log("res", res.data.data);
-    
-    if(res.status === 200){
-      setExistingData(res.data.data)
+
+    if (res.status === 200) {
+      setExistingData(res.data.data);
     } else {
-      setExistingData({})
+      setExistingData({});
     }
-  }
-  
+  };
+
   // utils
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -70,6 +71,7 @@ const NewTrainerForm = () => {
         const res = id ? await editProfile(id, values) : await register(values);
 
         if (res.status === 200) {
+          showSuccess(id ? `Profile Updated` : `Profile Created`)
           router.push(!id ? `/dashboard/all-trainers` : `${pathname}?id=${id}`);
           router.refresh();
         } else {
@@ -92,22 +94,21 @@ const NewTrainerForm = () => {
   useEffect(() => {
     if (existingData) {
       formik.setValues({
-        name: existingData.name || '',
-        designation: existingData.designation || '',
-        address: existingData.address || '',
-        mobile: existingData.mobile || '',
-        email: existingData.email || '',
-        image: existingData.image || '',
-        role: existingData.role || '',
+        name: existingData.name || "",
+        designation: existingData.designation || "",
+        address: existingData.address || "",
+        mobile: existingData.mobile || "",
+        email: existingData.email || "",
+        image: existingData.image || "",
+        role: existingData.role || "",
       });
     }
-    setImage(existingData?.image)
+    setImage(existingData?.image);
   }, [existingData]);
-    
+  
 
   return (
     <>
-    
       {/* profile update */}
       <Form onSubmit={formik.handleSubmit} className="mt-5">
         <div className="grid grid-cols-12 gap-5">
@@ -191,6 +192,23 @@ const NewTrainerForm = () => {
                 placeholder="Enter email"
               />
             </div>
+
+            {currUserData?.role === "Admin" && (
+              <div className="w-full col-span-12 md:col-span-6">
+                <Label text={"Role"} />
+                <Select
+                  id="role"
+                  name="role"
+                  onChange={formik.handleChange}
+                  value={formik.values.role}
+                >
+                  <option value="">Select Role</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Trainer">Trainer</option>
+                  <option value="Trainee">Trainee</option>
+                </Select>
+              </div>
+            )}
           </div>
         </div>
 

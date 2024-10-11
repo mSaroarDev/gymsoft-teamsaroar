@@ -20,7 +20,8 @@ export async function GET(req, res) {
     }
 
     // destacture data
-    const { _id, name, designation, address, email, mobile, image } = data;
+    const { _id, name, designation, address, email, mobile, image, role } =
+      data;
 
     return NextResponse.json(
       {
@@ -33,6 +34,7 @@ export async function GET(req, res) {
           email,
           mobile,
           image,
+          role,
         },
       },
       { status: 200 }

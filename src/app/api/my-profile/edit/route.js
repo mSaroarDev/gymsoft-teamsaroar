@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(req, res) {
   const formData = await req.json();
-  const { name, designation, address, mobile, email, image } = formData;
+  const { name, designation, address, mobile, email, image, role } = formData;
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("userId");
 
@@ -21,6 +21,7 @@ export async function PATCH(req, res) {
           mobile: mobile,
           email: email,
           image: image,
+          role: role,
         },
       },
       { new: true }

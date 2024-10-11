@@ -15,6 +15,7 @@ const CreateScheduleForm = ({ usersData }) => {
   const trainers = usersData?.filter((item) => item?.role === "Trainer") || [];
   const trainee = usersData?.filter((item) => item?.role === "Trainee") || [];
   const { currUserData } = useAppSelector((state) => state.currUser);
+  
 
   // utils
   const [loading, setLoading] = useState(false);
