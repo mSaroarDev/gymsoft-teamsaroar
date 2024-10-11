@@ -9,13 +9,15 @@ import ButtonSpinner from "@/subcomponents/Button Spinner/ButtonSpinner";
 import { PrimaryButton } from "@/subcomponents/Buttons";
 import { editProfile, myProfile, register } from "@/libs/user";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { addUser, addUserThunk } from "@/lib/features/users/userSlice";
 
 const NewTrainerForm = () => {
   // get query id
   const id = useSearchParams().get("id");
   const pathname = usePathname();
   const { currUserData } = useAppSelector((state) => state.currUser);
+  const dispatch = useAppDispatch()
 
   // get existing values if have
   const [existingData, setExistingData] = useState({});
@@ -68,12 +70,13 @@ const NewTrainerForm = () => {
 
       try {
         setLoading(true);
+           
         const res = id ? await editProfile(id, values) : await register(values);
 
         if (res.status === 200) {
+          dispatch(addUser(res?.data?.data))
           showSuccess(id ? `Profile Updated` : `Profile Created`)
           router.push(!id ? `/dashboard/all-trainers` : `${pathname}?id=${id}`);
-          router.refresh();
         } else {
           showError(id ? "Profile Updated" : "Trainer Create Failed");
         }

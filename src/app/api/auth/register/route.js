@@ -18,7 +18,7 @@ export async function POST(req, res) {
       );
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = bcrypt.hashSync(password || "123456", 10);
     const newData = new userModel({
       ...formdata,
       password: hashedPassword,

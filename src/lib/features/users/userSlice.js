@@ -9,13 +9,13 @@ export const fetchUsers = createAsyncThunk("fetchUsers", async () => {
 });
 
 // add new user
-export const addUserThunk = createAsyncThunk(
-  "users/addUser",
-  async (values) => {
-    const res = await register(values);
-    return res.data.data;
-  }
-);
+// export const addUserThunk = createAsyncThunk(
+//   "users/addUser",
+//   async (values) => {
+//     const res = await register(values);
+//     return res.data.data;
+//   }
+// );
 
 let initialState = {
   isLoading: false,
@@ -27,13 +27,12 @@ const usersDataSlice = createSlice({
   name: "usersDataSlice",
   initialState,
   reducers: {
-    // addUser: (state, action) => {
-    //   console.log("Adding user:", JSON.stringify(action.payload, null, 2));
-    //   return {
-    //     ...state,
-    //     usersData: [...state.usersData, action.payload],
-    //   };
-    // },
+    addUser: (state, action) => {
+      return {
+        ...state,
+        usersData: [...state.usersData, action.payload],
+      };
+    },
   },
 
   extraReducers: (builder) => {
@@ -47,23 +46,23 @@ const usersDataSlice = createSlice({
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.error = true;
-      })
-
-      // add user
-      .addCase(addUserThunk.pending, (state) => {
-        state.isLoading = true;
-        state.error = null; // Reset error state on new request
-      })
-      .addCase(addUserThunk.fulfilled, (state, action) => {
-        state.isLoading = false;
-        (state.isLoading = false), state.usersData.push(action.payload);
-      })
-      .addCase(addUserThunk.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = true;
       });
+
+    // add user
+    // .addCase(addUserThunk.pending, (state) => {
+    //   state.isLoading = true;
+    //   state.error = null; // Reset error state on new request
+    // })
+    // .addCase(addUserThunk.fulfilled, (state, action) => {
+    //   state.isLoading = false;
+    //   (state.isLoading = false), state.usersData.push(action.payload);
+    // })
+    // .addCase(addUserThunk.rejected, (state, action) => {
+    //   state.isLoading = false;
+    //   state.error = true;
+    // });
   },
 });
 
-export const {} = usersDataSlice.actions;
+export const { addUser } = usersDataSlice.actions;
 export default usersDataSlice.reducer;
