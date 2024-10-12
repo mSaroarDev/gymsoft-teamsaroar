@@ -168,7 +168,7 @@ const NewTrainerForm = () => {
               />
             </div>
 
-            <div className="w-full col-span-12">
+            <div className="w-full col-span-12 md:col-span-6">
               <Label text={"Address"} />
               <Input
                 id="address"
@@ -179,7 +179,7 @@ const NewTrainerForm = () => {
               />
             </div>
 
-            <div className="w-full col-span-12 md:col-span-6">
+            <div className="w-full col-span-12 md:col-span-6 lg:col-span-4">
               <Label text={"Mobile"} />
               <Input
                 type="text"
@@ -192,7 +192,7 @@ const NewTrainerForm = () => {
               />
             </div>
 
-            <div className="w-full col-span-12 md:col-span-6">
+            <div className="w-full col-span-12 md:col-span-6 lg:col-span-4">
               <Label text={"Email"} />
               <Input
                 id="email"
@@ -204,7 +204,7 @@ const NewTrainerForm = () => {
             </div>
 
             {currUserData?.role === "Admin" && (
-              <div className="w-full col-span-12 md:col-span-6">
+              <div className="w-full col-span-12 md:col-span-6 lg:col-span-4">
                 <Label text={"Role"} />
                 <Select
                   id="role"
