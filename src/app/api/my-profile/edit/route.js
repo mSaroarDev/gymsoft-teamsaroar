@@ -18,7 +18,7 @@ export async function PATCH(req, res) {
       {
         $set: {
           name: name,
-          designation: designation,
+          designation: role,
           address: address,
           mobile: mobile,
           email: email,

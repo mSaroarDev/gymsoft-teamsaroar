@@ -51,7 +51,8 @@ const NewTrainerForm = () => {
     }
   };
 
-  // formik
+  
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -63,9 +64,20 @@ const NewTrainerForm = () => {
       role: "Trainer",
       password: "123456",
     },
+   
     onSubmit: async (values) => {
       const { name, designation, address, mobile, email, image } = values;
-      if (!name || !designation || !address || !mobile || !email || !image) {
+
+      // Custom Bangladeshi mobile number validation
+      console.log("Mobile number input:", mobile);  // Debugging the mobile number
+
+    // Custom Bangladeshi mobile number validation
+    const bangladeshMobileRegex = /^01[3-9]\d{8}$/;
+    if (!bangladeshMobileRegex.test(mobile)) {
+      return showError("Mobile number format not valid");
+    }
+
+      if (!name || !designation || !address || !mobile || !email) {
         return showError("All Fields Must be Filled");
       }
 
@@ -79,7 +91,7 @@ const NewTrainerForm = () => {
             ? dispatch(editUser({ id: res?.data?._id, data: res?.data?.data }))
             : dispatch(addUser(res?.data?.data));
           showSuccess(id ? `Profile Updated` : `Profile Created`);
-          router.push(!id ? `/dashboard/all-trainers` : `${pathname}?id=${id}`);
+          router.push(`/dashboard/all-trainers`);
         } else {
           showError(id ? "Profile Updated" : "Trainer Create Failed");
         }
@@ -156,17 +168,6 @@ const NewTrainerForm = () => {
               />
             </div>
 
-            <div className="w-full col-span-12 md:col-span-6">
-              <Label text={"Designation"} />
-              <Input
-                id="designation"
-                name="designation"
-                onChange={formik.handleChange}
-                value={formik.values.designation}
-                placeholder="Enter designation"
-              />
-            </div>
-
             <div className="w-full col-span-12">
               <Label text={"Address"} />
               <Input
@@ -181,11 +182,13 @@ const NewTrainerForm = () => {
             <div className="w-full col-span-12 md:col-span-6">
               <Label text={"Mobile"} />
               <Input
+                type="text"
+                maxlength="11"
                 id="mobile"
                 name="mobile"
                 onChange={formik.handleChange}
                 value={formik.values.mobile}
-                placeholder="Enter mobile"
+                placeholder="017********"
               />
             </div>
 

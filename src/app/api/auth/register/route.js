@@ -5,7 +5,7 @@ import { connectDB } from "@/db/connectDB";
 
 export async function POST(req, res) {
   const formdata = await req.json();
-  const { email, password } = formdata;
+  const { email, password, role } = formdata;
 
   try {
     await connectDB();
@@ -21,6 +21,7 @@ export async function POST(req, res) {
     const hashedPassword = bcrypt.hashSync(password || "123456", 10);
     const newData = new userModel({
       ...formdata,
+      designation: role,
       password: hashedPassword,
     });
 
