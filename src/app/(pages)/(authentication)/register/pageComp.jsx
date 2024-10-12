@@ -3,6 +3,7 @@ import SignInForm from "@/components/SignInForm";
 import SignUpForm from "@/components/SignUpForm";
 import { H1, H3, P } from "@/subcomponents/Headings";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 const PageComp = () => {
@@ -31,7 +32,7 @@ const PageComp = () => {
             <div className="h-full flex items-center justify-center rounded-lg overflow-hidden">
               <div className="w-full md:w-[450px] box-shadow p-10">
                 <div className="flex flex-col gap-2 items-center justify-center">
-                  <img src="/sign.svg" className="w-24 h-24 mb-5" />
+                 <Image src="/sign.svg" height={96} width={96} alt="Sign in" className="mb-5" />
                   <H3 text="Sign up as Trainee" />
                 </div>
 

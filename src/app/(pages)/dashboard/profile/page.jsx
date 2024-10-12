@@ -14,6 +14,7 @@ import { editProfile } from "@/libs/user";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { setCurrUser } from "@/redux/features/currUserSlice";
 import Loading from "@/subcomponents/Loading";
+import Image from "next/image";
 
 const ProfileCom = () => {
   // redux store
@@ -88,7 +89,9 @@ const ProfileCom = () => {
     },
   });
 
-  return loading ? <Loading /> :  (
+  return loading ? (
+    <Loading />
+  ) : (
     <MotionContainer>
       <H5 text={"My Profile"} className="text-lg font-bold" />
 
@@ -104,11 +107,13 @@ const ProfileCom = () => {
               }}
               onSuccess={handleImageUpload}
             >
-              <div className="w-[150px] h-[150px] border-2 border-dashed border-brand/40 flex flex-col items-center justify-center rounded-md overflow-hidden">
+              <div className="w-[150px] h-[150px] border-2 border-dashed border-brand/40 flex flex-col items-center justify-center rounded-md overflow-hidden relative">
                 {image ? (
-                  <img
+                  <Image
                     src={image}
-                    className="w-full h-full object-cover"
+                    layout="fill"
+                    objectFit="cover"
+                    className="w-full h-full"
                     alt="Image"
                   />
                 ) : (

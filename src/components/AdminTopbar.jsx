@@ -9,6 +9,7 @@ import { logout } from "@/libs/user";
 import { useDispatch, useSelector } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import Swal from "sweetalert2";
+import Image from "next/image";
 
 const AdminTopbar = () => {
   // redux store
@@ -66,11 +67,13 @@ const AdminTopbar = () => {
             </div>
             <div
               onClick={() => setShowLogout((l) => !l)}
-              className="w-10 h-10 rounded-full ring overflow-hidden cursor-pointer"
+              className="w-10 h-10 rounded-full ring overflow-hidden cursor-pointer relative"
             >
-              <img
+              <Image
                 src={currUserData.image}
-                className="w-full h-full object-cover"
+                layout="fill"
+                objectFit="cover"
+                className="object-cover"
                 alt={currUserData.name}
               />
 

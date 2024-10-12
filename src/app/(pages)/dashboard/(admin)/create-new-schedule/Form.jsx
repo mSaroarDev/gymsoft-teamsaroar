@@ -7,6 +7,7 @@ import { PrimaryButton } from "@/subcomponents/Buttons";
 import { Form, Input, Label, Select } from "@/subcomponents/Forms";
 import { showError, showSuccess } from "@/utils/toaster";
 import { useFormik } from "formik";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -74,11 +75,13 @@ const CreateScheduleForm = ({ usersData }) => {
       <Form onSubmit={formik.handleSubmit} className="mt-5">
         <div className="grid grid-cols-12 gap-5">
           <div className="col-span-12 md:col-span-2">
-            <div className="w-[150px] h-[150px] border-2 border-dashed border-brand/40 flex flex-col items-center justify-center rounded-md overflow-hidden">
-              <img
-                src={"/gym.jpg"}
-                className="w-full h-full object-cover"
+            <div className="w-[150px] h-[150px] border-2 border-dashed border-brand/40 flex flex-col items-center justify-center rounded-md overflow-hidden relative">
+              <Image
+                src="/gym.jpg"
                 alt="Image"
+                layout="fill"
+                objectFit="cover"
+                className="w-full h-full"
               />
             </div>
           </div>

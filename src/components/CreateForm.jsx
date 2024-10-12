@@ -11,13 +11,14 @@ import { editProfile, myProfile, register } from "@/libs/user";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addUser, editUser } from "@/redux/features/users/userSlice";
+import Image from "next/image";
 
 const NewTrainerForm = () => {
   // get query id
   const id = useSearchParams().get("id");
   const pathname = usePathname();
   const { currUserData } = useAppSelector((state) => state.currUser);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   // get existing values if have
   const [existingData, setExistingData] = useState({});
@@ -70,12 +71,14 @@ const NewTrainerForm = () => {
 
       try {
         setLoading(true);
-           
+
         const res = id ? await editProfile(id, values) : await register(values);
 
         if (res.status === 200) {
-          id ? dispatch(editUser({id: res?.data?._id, data: res?.data?.data})) : dispatch(addUser(res?.data?.data))
-          showSuccess(id ? `Profile Updated` : `Profile Created`)
+          id
+            ? dispatch(editUser({ id: res?.data?._id, data: res?.data?.data }))
+            : dispatch(addUser(res?.data?.data));
+          showSuccess(id ? `Profile Updated` : `Profile Created`);
           router.push(!id ? `/dashboard/all-trainers` : `${pathname}?id=${id}`);
         } else {
           showError(id ? "Profile Updated" : "Trainer Create Failed");
@@ -108,7 +111,6 @@ const NewTrainerForm = () => {
     }
     setImage(existingData?.image);
   }, [existingData]);
-  
 
   return (
     <>
@@ -124,11 +126,13 @@ const NewTrainerForm = () => {
               }}
               onSuccess={handleImageUpload}
             >
-              <div className="w-[150px] h-[150px] border-2 border-dashed border-brand/40 flex flex-col items-center justify-center rounded-md overflow-hidden">
+              <div className="w-[150px] h-[150px] border-2 border-dashed border-brand/40 flex flex-col items-center justify-center rounded-md overflow-hidden relative">
                 {image ? (
-                  <img
+                  <Image
                     src={image}
-                    className="w-full h-full object-cover"
+                    layout="fill"
+                    objectFit="cover"
+                    className="object-cover"
                     alt="Image"
                   />
                 ) : (
