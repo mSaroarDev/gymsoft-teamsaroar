@@ -9,7 +9,10 @@ export default function Layout({ children }) {
       {/* sidebar */}
       <div className="hidden md:block">
         <div className="fixed top-0 bottom-0 left-0 w-[250px] bg-black overflow-y-auto">
-          <H1 text={"NextNews"} className="text-lg text-white m-5" />
+          <H1
+            text={"Fitnessia"}
+            className="text-lg text-brand m-5 tracking-wider"
+          />
 
           {/* navlinks */}
           <div className="flex flex-col">
