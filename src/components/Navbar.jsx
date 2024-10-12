@@ -18,7 +18,7 @@ const Navbar = () => {
         <main>
           <div className="flex items-center justify-between">
             <div>
-              <H2 className="text-brand" text={"Fitnessia"} />
+              <H2 className="text-brand text-[24px]" text={"Fitnessia"} />
             </div>
 
             <div className="flex items-center gap-4">
